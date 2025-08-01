@@ -1,37 +1,50 @@
 import React, { useState } from "react";
-const Card = ({movie,movieType}) => {
+import { useNavigate,Link } from "react-router-dom";
+const Card = ({movie,movieType,type}) => {
 
+  const navigate = useNavigate();
 
+  const handleNavigation = () =>{
+    navigate(`/movie/${movie.id}`);
+  }
   const [readMore, setReadMore] = useState(false);
 
-  // console.log(movie);
+  console.log(movieType);
  return (
 
   
   <div className="max-w-auto bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-    <a href="#">
+    <Link to={type === "tv" ? `/series/${movie.id}` : `/movie/${movie.id}`} className="block">
       <img
-        className="rounded-t-lg w-full h-60 object-cover"
+        className="rounded-t-lg w-full h-auto object-cover"
         src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
-        alt=""
-      />
-    </a>
+        alt="img"
+        // onClick={()=>{handleNavigation()}}
+      />  
+    </Link>
     <div className="p-5">
-      <a href="#">
+    <Link to={type === "tv" ? `/series/${movie.id}` : `/movie/${movie.id}`} className="block">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {movie.title}
+          {movie.name ? ` ${movie.name}` : `${movie.title}`}
         </h5>
-      </a>
+      </Link>
 
       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-        Original Title: {movie.original_title}
+        Original Title: {movie.original_title || movie.original_name}
       </p>
       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Language: {movie.original_language.toUpperCase()}
       </p>
-      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+      {movie.first_air_date ? (
+         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+        First Air Date: {movie.first_air_date}
+      </p>
+      ):(
+         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Release Date: {movie.release_date}
       </p>
+      )}
+     
       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Rating: ⭐ {movie.vote_average} ({movie.vote_count} votes)
       </p>
@@ -39,9 +52,9 @@ const Card = ({movie,movieType}) => {
         Popularity: {movie.popularity}
       </p>
       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        {readMore
-            ? movie.overview
-            : `${movie.overview.substring(0, 100)}...`}
+       {movie.overview
+    ? (readMore ? movie.overview : `${movie.overview.substring(0, 100)}...`)
+    : "No overview available."}
       </p>
        <button
          

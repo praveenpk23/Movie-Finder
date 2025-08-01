@@ -6,7 +6,6 @@ const options = {
   }
 };
 
-
 Now playing 
 https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1
 
@@ -23,4 +22,10 @@ Details
 https://api.themoviedb.org/3/movie/{movie_id}?language=en-US
 
 Search
-https://api.themoviedb.org/3/search/movie?query={movie_name}&include_adult=false&language=en-US&page=1
+https://api.themoviedb.org/3/search/movie?query={movie_name}&include_adult=true&language=en-US&page=1
+
+
+
+Top Tv Series : 
+
+https://api.themoviedb.org/3/tv/top_rated?language=en-US&include_adult=true&page=1
