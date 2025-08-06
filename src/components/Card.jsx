@@ -29,13 +29,13 @@ const Card = ({movie,movieType,type}) => {
         </h5>
       </Link>
 
-      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+      {/* <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Original Title: {movie.original_title || movie.original_name}
-      </p>
+      </p> */}
       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Language: {movie.original_language.toUpperCase()}
       </p>
-      {movie.first_air_date ? (
+      {/* {movie.first_air_date ? (
          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         First Air Date: {movie.first_air_date}
       </p>
@@ -43,14 +43,14 @@ const Card = ({movie,movieType,type}) => {
          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Release Date: {movie.release_date}
       </p>
-      )}
+      )} */}
      
       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Rating: ⭐ {movie.vote_average} ({movie.vote_count} votes)
       </p>
-      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+      {/* <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
         Popularity: {movie.popularity}
-      </p>
+      </p> */}
       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
        {movie.overview
     ? (readMore ? movie.overview : `${movie.overview.substring(0, 100)}...`)

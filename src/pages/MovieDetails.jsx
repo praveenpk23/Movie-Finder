@@ -1,181 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Details from "../components/Details";
-
-const MovieDetail = () => {
+import useFetch from "../Hooks/useFetch";
+const MovieDetail = ({type}) => {
   const { id ,sid } = useParams();
-  const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const {data:movie, loading} = useFetch("",type, "one",id || sid);
+  // const [movie, setMovie] = useState(null);
+  // const [loading, setLoading] = useState(false);
   
   const isMovie = Boolean(id);
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`, 
-    },
-  };
-
-   console.log(import.meta.env.TMDB_TOKEN);
-  // useEffect(() => {
-  //   const fetchMovie = async () => {
-  //     setLoading(true);
-  //     try {
-  //      if(id){
-  //        const res = await fetch(
-  //         `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
-  //         options
-  //       );
-  //       const data = await res.json();
-  //       setMovie(data);
-  //       console.log(data);
-  //      }else if(sid){
-  //        const res = await fetch(
-  //         `https://api.themoviedb.org/3/tv/${sid}?language=en-US`,
-  //         options
-  //       );
-  //       const data = await res.json();
-  //       setMovie(data);
-  //       console.log(data);
-  //      }
-     
-  //     } catch (err) {
-  //       console.error("Error fetching movie details:", err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchMovie();
-  // }, [id]);
-
-
-   useEffect(() => {
-    const fetchMovie = async () => {
-      setLoading(true);
-      try {
-        const url = isMovie ? `https://api.themoviedb.org/3/movie/${id}?language=en-US` : `https://api.themoviedb.org/3/tv/${sid}?language=en-US`;
-        const res = await fetch(url, options);
-        const data = await res.json();
-        setMovie(data);
-        console.log(data);
-      } catch (err) {
-        console.error("Error fetching movie details:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovie();
-  }, [id]);
-
-
-  console.log(movie);
-  // console.log(id);
-
-
 
  return (
-    // <div className="max-w-6xl mx-auto p-5 bg-white dark:bg-gray-900 rounded-lg shadow-lg mt-10">
-    //   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-    //     {/* Left: Poster */}
-    //     <div className="lg:col-span-4">
-    //       <img
-    //         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-    //         alt={movie.title}
-    //         className="rounded-lg shadow-lg w-full object-cover"
-    //       />
-    //     </div>
 
-    //     {/* Right: Details */}
-    //     <div className="lg:col-span-8 text-gray-900 dark:text-gray-100 flex flex-col justify-between">
-    //       {/* Title and Tagline */}
-    //       <div>
-    //         <h1 className="text-4xl font-extrabold mb-2">{movie.title}</h1>
-    //         {movie.tagline && (
-    //           <p className="italic text-lg text-gray-600 dark:text-gray-400 mb-6">
-    //             "{movie.tagline}"
-    //           </p>
-    //         )}
-    //       </div>
-
-    //       {/* Overview */}
-    //       <p className="mb-6 leading-relaxed text-lg">{movie.overview}</p>
-
-    //       {/* Stats Grid */}
-    //       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 text-sm">
-    //         <div>
-    //           <p>
-    //             <span className="font-semibold">Release Date:</span>{" "}
-    //             {movie.release_date}
-    //           </p>
-    //           <p>
-    //             <span className="font-semibold">Runtime:</span> {movie.runtime}{" "}
-    //             minutes
-    //           </p>
-    //           <p>
-    //             <span className="font-semibold">Language:</span>{" "}
-    //             {movie.original_language.toUpperCase()}
-    //           </p>
-    //           <p>
-    //             <span className="font-semibold">Adult Content:</span>{" "}
-    //             {movie.adult ? "Yes" : "No"}
-    //           </p>
-    //         </div>
-
-    //         {/* <div>
-    //           <p>
-    //             <span className="font-semibold">Genres:</span>{" "}
-    //             {movie.genres.map((g) => g.name).join(", ")}
-    //           </p>
-              
-    //            {movie.budget ? (
-    //             <p>
-    //               <span className="font-semibold">Budget:</span>{" "}
-    //              {movie.budget.toLocaleString("en-US", {
-    //               style: "currency",
-    //               currency: "USD",
-    //             })}
-    //             </p>
-    //            ):("")}
-    //           <p>
-    //             <span className="font-semibold">Revenue:</span>{" "}
-    //             {movie.revenue.toLocaleString("en-US", {
-    //               style: "currency",
-    //               currency: "USD",
-    //             })}
-    //           </p>
-    //           <p>
-    //             <span className="font-semibold">Popularity:</span>{" "}
-    //             {movie.popularity.toFixed(1)}
-    //           </p>
-    //         </div> */}
-    //       </div>
-
-    //       {/* Ratings */}
-    //       <div className="flex items-center space-x-3">
-    //         <span className="text-yellow-400 text-xl font-bold">⭐</span>
-    //         <span className="text-xl font-semibold">{movie.vote_average}</span>
-    //         <span className="text-gray-600 dark:text-gray-400">
-    //           ({movie.vote_count.toLocaleString()} votes)
-    //         </span>
-    //       </div>
-
-    //       {/* Homepage Link */}
-    //       {movie.homepage && (
-    //         <a
-    //           href={movie.homepage}
-    //           target="_blank"
-    //           rel="noopener noreferrer"
-    //           className="mt-6 inline-block text-blue-600 hover:underline font-semibold"
-    //         >
-    //           Official Website
-    //         </a>
-    //       )}
-    //     </div>
-    //   </div>
-    // </div>
     <>
      {loading ? (
 

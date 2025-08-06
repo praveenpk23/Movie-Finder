@@ -1,78 +1,11 @@
-import { useState,useEffect } from "react";
 import Card from "../components/Card"
-import { useParams,useLocation  } from "react-router-dom";
+import useFetch from "../Hooks/useFetch";
+
+const MovieList = ({apiPath,type}) => {
 
 
-const MovieList = () => {
+const {data:movies,loading} = useFetch(apiPath,type,"all");
 
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-  }
-};
-
-
-  const [movies, setMovies] = useState([]);
-  const [movieType, setMovieType] = useState("now_playing");
-  const [type,setType] = useState("movie")
-  const [loading,setLoading]= useState(false);
-  const location = useLocation();
-  console.log(location.pathname);
-  
-
-//   useEffect(()=>{
-//     function handleMovieTypeChange() {
-    
-//     if(location.pathname === "/movies/popular"){
-//       setMovieType("popular");
-//     }else if(location.pathname === "/movies/top"){
-//       setMovieType("top_rated");
-//     }else if(location.pathname === "/movies/upcoming"){
-//       setMovieType("upcoming");
-//     }else if(location.pathname === "/"){
-//       setMovieType("now_playing");
-//     }else{
-//       return;
-//     }
-//   }
-//     handleMovieTypeChange();
-//  },[location.pathname]);
-
-useEffect(() => {
-  const path = location.pathname;
-  const typeMap = {
-    "/": "now_playing",
-    "/movies/popular": "popular",
-    "/movies/top": "top_rated",
-    "/movies/upcoming": "upcoming",
-    "/movies/topseries": "top_rated" 
-  };
-  setMovieType(typeMap[path] || "now_playing");
-  setType(path.includes("topseries") ? "tv" : "movie");
-}, [location.pathname,]);
-
-useEffect(()=>{
-  fetchMovies();
-
-},[movieType, type])
-
-
-  async function fetchMovies() {
-    setLoading(true)
-    try{
-      const response = await fetch(`https://api.themoviedb.org/3/${type}/${movieType}?language=en-US&page=1&include_adult=true`,options)
-      const data  = await response.json();
-      setMovies(data.results);
-      console.log(data.results);
-    }catch(error){
-      console.error("Error fetching movies:", error);
-    }finally{
-      setLoading(false);
-    }
-  }
- 
 
 
   return (
@@ -94,16 +27,16 @@ useEffect(()=>{
 ):(
     <section className="max-w-7xl mx-auto py-7">
       <div className="pb-5">
-           {movieType === "popular" && <h1 className="text-2xl font-bold text-center col-span-3">Popular Movies</h1>}
-      {movieType === "top_rated" && type === "movie" && <h1 className="text-2xl font-bold text-center col-span-3">Top Rated Movies</h1>}
-      {(movieType === "top_rated" && type === "tv") && <h1 className="text-2xl font-bold text-center col-span-3">Top Rated Tv Series</h1>}
-      {movieType === "upcoming" && <h1 className="text-2xl font-bold text-center col-span-3">Upcoming Movies</h1>}
+      {apiPath === "popular" && <h1 className="text-2xl font-bold text-center col-span-3">Popular Movies</h1>}
+      {apiPath === "top_rated" && type === "movie" && <h1 className="text-2xl font-bold text-center col-span-3">Top Rated Movies</h1>}
+      {(apiPath === "top_rated" && type === "tv") && <h1 className="text-2xl font-bold text-center col-span-3">Top Rated Tv Series</h1>}
+      {apiPath === "upcoming" && <h1 className="text-2xl font-bold text-center col-span-3">Upcoming Movies</h1>}
       {/* {movieType === "popular" && <h1 className="text-2xl font-bold text-center col-span-3">Popular Movies</h1>} */}
      
       </div>
     <div className="grid lg:grid-cols-3 gap-5 sm:grid-cols-2">
         {movies.map((movie , index) => (
-                  <Card loading={loading} movieType={movieType} type={type} movie={movie} key={movie.id} />
+                  <Card loading={loading} movieType={apiPath} type={type} movie={movie} key={movie.id} />
                 ))}
        </div>
     </section>
