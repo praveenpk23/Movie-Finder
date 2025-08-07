@@ -4,7 +4,8 @@ import Details from "../components/Details";
 import useFetch from "../Hooks/useFetch";
 const MovieDetail = ({type}) => {
   const { id ,sid } = useParams();
-  const {data:movie, loading} = useFetch("",type, "one",id || sid);
+  const apiPath = id ? `movie/${id}` : `tv/${sid}`;
+  const {data:movie, loading} = useFetch(apiPath);
   // const [movie, setMovie] = useState(null);
   // const [loading, setLoading] = useState(false);
   

@@ -7,8 +7,10 @@ function App() {
 
   return (
   <>
-       <Header />
-       <br /><br />
+     <div className=''>
+        <Header />
+        <br /><br/>
+     </div>
       <AllRouters /> 
       <Footer/ > 
   </>

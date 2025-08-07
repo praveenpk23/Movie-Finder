@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
-const Card = ({movie,movieType,type}) => {
+const Card = ({movie,type="all"}) => {
 
   const navigate = useNavigate();
 
@@ -9,16 +9,21 @@ const Card = ({movie,movieType,type}) => {
   }
   const [readMore, setReadMore] = useState(false);
 
-  console.log(movieType);
+const img = movie?.backdrop_path
+  ? `https://image.tmdb.org/t/p/w780${movie.backdrop_path}`
+  : 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
  return (
 
   
   <div className="max-w-auto bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
     <Link to={type === "tv" ? `/series/${movie.id}` : `/movie/${movie.id}`} className="block">
       <img
-        className="rounded-t-lg w-full h-auto object-cover"
-        src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
-        alt="img"
+        // className=" w-full h-auto object-cover"
+        className="w-full h-[200px] object-cover rounded-t-lg"
+
+        src={img}
+        // alt="img"
         // onClick={()=>{handleNavigation()}}
       />  
     </Link>
