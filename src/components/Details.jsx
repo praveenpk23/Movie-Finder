@@ -21,6 +21,9 @@ const MediaDetailCard = ({ media, type = "movie", loading }) => {
     status,
     vote_average,
     homepage,
+    spoken_languages,
+    
+
   } = media;
 
   return (
@@ -108,6 +111,11 @@ const MediaDetailCard = ({ media, type = "movie", loading }) => {
             <p className="mb-2">
               <strong>Rating:</strong>{" "}
               {vote_average ? vote_average.toFixed(1) : "N/A"} / 10
+            </p>
+
+               <p className="mb-2">
+              <strong>Language:</strong>{" "}
+              {spoken_languages?.length > 0 ? (spoken_languages[0].english_name) : "N/A"}
             </p>
 
             {homepage && (

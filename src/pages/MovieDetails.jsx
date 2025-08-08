@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Details from "../components/Details";
 import useFetch from "../Hooks/useFetch";
-const MovieDetail = ({type}) => {
+const MovieDetail = ({}) => {
   const { id ,sid } = useParams();
   const apiPath = id ? `movie/${id}` : `tv/${sid}`;
   const {data:movie, loading} = useFetch(apiPath);
@@ -10,6 +10,10 @@ const MovieDetail = ({type}) => {
   // const [loading, setLoading] = useState(false);
   
   const isMovie = Boolean(id);
+
+  useEffect(()=>{
+    document.title = movie.original_name || movie.original_title ? `${movie.name || movie.title } / CineBite ` : "CineBite";
+  })
 
 
  return (

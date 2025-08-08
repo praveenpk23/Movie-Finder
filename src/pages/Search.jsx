@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSearchParams,useNavigate } from 'react-router-dom'
-import useFetch from '../hooks/useFetch';
+import useFetch from '../Hooks/useFetch';
 import Card from '../components/Card';
 const Search = ({apiPath}) => {
 
@@ -9,6 +9,9 @@ const Search = ({apiPath}) => {
     console.log("Search query:", query, apiPath);
     const{data:movies,loading} = useFetch(`${apiPath}?query=${query}`);
 
+    useEffect(()=>{
+      document.title = query ? `"${query}" / CineBite ` : "Search / CineBite";
+    })
   return (
        <main>
 
@@ -35,9 +38,16 @@ const Search = ({apiPath}) => {
         )}
       </div>
     <div className="grid lg:grid-cols-3 gap-5 sm:grid-cols-2">
-     { movies.map((movie) => (
+     {/* { movies.map((movie) => (
                   <Card loading={loading}  movie={movie}  key={movie.id} />
-                ))}
+                ))} */}
+                {movies
+  .slice() // create a copy to avoid mutating the original
+  .sort((a, b) => b.popularity - a.popularity) // highest popularity first
+  .map((movie) => (
+    <Card loading={loading} movie={movie} key={movie.id} />
+  ))}
+
        </div>
     </section>
 
